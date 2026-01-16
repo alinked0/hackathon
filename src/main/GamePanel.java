@@ -9,66 +9,89 @@ import src.entity.Player;
 import src.tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
-    // SCREEN SETTINGS
-    final int originalTitleSize = 16; // 16 * 16, tile or size of the sprite
-    final int scale = 3; // scale for the tile to make it bigger or smaller
+	// SCREEN SETTINGS
+	final int originalTitleSize = 16; // 16 * 16, tile or size of the sprite
+	final int scale = 3; // scale for the tile to make it bigger or smaller
 
-    public final int tileSize = originalTitleSize * scale; // 48*48, size of the tile on the screen
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
-    // screen is 16 * 12 so a ration of 4 * 3
-    public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+	public final int tileSize = originalTitleSize * scale; // 48*48, size of the tile on the screen
+	public final int maxScreenCol = 16;
+	public final int maxScreenRow = 12;
+	// screen is 16 * 12 so a ration of 4 * 3
+	public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+	public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
-    // WORLD SETTINGS
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
-    public final int maxWorldWidth = tileSize * maxWorldCol;
-    public final int maxWorldHeight = tileSize * maxWorldRow;
+	// WORLD SETTINGS
+	public final int maxWorldCol = 100;
+	public final int maxWorldRow = 13;
+	public final int maxWorldWidth = tileSize * maxWorldCol;
+	public final int maxWorldHeight = tileSize * maxWorldRow;
 
-    // FPS
-    int FPS = 60;
+	// FPS
+	int FPS = 60;
 
-    TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
-    Thread gamThread;
-    public CollisionChecker cChecker = new CollisionChecker(this);
-    public Player player = new Player(this, keyH);
+	public final Integer gravity = 1;
+	public final Integer jumpStrength = 18;
 
-    public GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // preffered size for the window
-        this.setBackground(Color.black);
-        this.setDoubleBuffered(true);
-        this.addKeyListener(keyH);
-        this.setFocusable(true); // the gamepanel can be focused on to read key input
-    }
+	TileManager tileM = new TileManager(this);
+	KeyHandler keyH = new KeyHandler();
+	public volatile Thread gamThread;
+	public CollisionChecker cChecker = new CollisionChecker(this);
+	public Player player = new Player(this, keyH);
 
-    public void startGameThread() {
+	public GamePanel() {
+		this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // prreffered size for the window
+		this.setBackground(Color.black);
+		this.setDoubleBuffered(true);
+		this.addKeyListener(keyH);
+		this.setFocusable(true); // the gamepanel can be focused on to read key input
+	}
 
-        gamThread = new Thread(this);
-        gamThread.start();
-    }
+	public void startGameThread() {
 
+		gamThread = new Thread(this);
+		gamThread.start();
+	}
 
-    //draw and update at the fps rate with System.nanoTime() to get the current time
-    @Override
-    public void run() {
-        //TO DO
-    }
+	//draw and update at the fps rate with System.nanoTime() to get the current time
+	public void stop() {
+		gamThread = null;
+	}
+	@Override
+	public void run() {
+		Thread thisThread = Thread.currentThread();
+		Long time_now, time_last, increment, acc, delta;
 
-    public void update() {
-        player.update();
-    }
+		acc = 0L;
+		time_last = System.nanoTime();
+		increment = Long.divideUnsigned(1_000_000_000L, this.FPS);
+		while(thisThread==gamThread){
+			time_now = System.nanoTime();
+			delta = time_now - time_last;
+			time_last = time_now;
+			acc += delta;
+			while (acc>=increment){
+				this.update();
+				this.repaint();
+				acc -= increment;
+			}
+		}
+	}
+	public void update() {
+		/*if (player.worldX <0 ||  player.worldY <0 || player.worldX >=maxWorldCol || player.worldY>=maxWorldRow){
+			this.stop();
+		}*/
+		player.update();
+	}
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) g;
 
-        tileM.draw(g2);
-        player.draw(g2);
+		tileM.draw(g2);
+		player.draw(g2);
 
-        g2.dispose();
-    }
+		g2.dispose();
+	}
 }
