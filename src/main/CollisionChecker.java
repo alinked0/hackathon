@@ -15,7 +15,9 @@ public class CollisionChecker {
     // get the col and row of the screen where the player is
     // check the collision between the player the th 2 blocks close to it relatively
     // to the direction
+    // and always check if you are walking on ground or not
     public void checkTile(Entity entity) {
-    //TO DO
+
+        // TO DO
     }
 }

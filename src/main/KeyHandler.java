@@ -15,7 +15,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_Z || code == KeyEvent.VK_UP) {
+        if (code == KeyEvent.VK_Z || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) {
             upPressed = true;
         }
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
@@ -32,8 +32,8 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-    
-        if (code == KeyEvent.VK_Z || code == KeyEvent.VK_UP) {
+        
+        if (code == KeyEvent.VK_Z || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) {
             upPressed = false;
         }
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {

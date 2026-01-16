@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
     // WORLD SETTINGS
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
+    public final int maxWorldCol = 100;
+    public final int maxWorldRow = 13;
     public final int maxWorldWidth = tileSize * maxWorldCol;
     public final int maxWorldHeight = tileSize * maxWorldRow;
 
@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyH);
 
     public GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // preffered size for the window
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // prreffered size for the window
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
@@ -49,10 +49,10 @@ public class GamePanel extends JPanel implements Runnable {
         gamThread.start();
     }
 
-
     //draw and update at the fps rate with System.nanoTime() to get the current time
     @Override
     public void run() {
+
         //TO DO
     }
 

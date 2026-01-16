@@ -3,6 +3,7 @@ package src.main;
 import javax.swing.JFrame;
 
 public class Main {
+    
     public static void main(String[] args) {
         
         //initializing the game window 
@@ -18,6 +19,7 @@ public class Main {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
         //starting the game
         gamePanel.startGameThread();
     }

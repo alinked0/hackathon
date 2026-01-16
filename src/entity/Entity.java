@@ -15,4 +15,5 @@ public class Entity {
 
     public Rectangle solidArea;
     public boolean collisionOn = false;
+    public boolean walkingOnSolid = true;
 }

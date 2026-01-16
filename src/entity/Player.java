@@ -14,6 +14,10 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
+    int leftInJump;
+
+    BufferedImage image;
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -26,6 +30,10 @@ public class Player extends Entity {
         solidArea.y = 16;
         solidArea.width = gp.tileSize - (solidArea.x * 2); // 32
         solidArea.height = gp.tileSize - solidArea.y; // 32
+
+        leftInJump = 0;
+
+        image = null;
 
         setDefaultValues();
         getPlayerImage();
@@ -44,39 +52,26 @@ public class Player extends Entity {
     // the default value of the speed, the location and the direction the player is
     // facing
     public final void setDefaultValues() {
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = gp.tileSize * 7;
+        worldY = gp.tileSize * 6;
         speed = 4;
-        direction = "down";
+        direction = "right";
     }
 
     // if a key is pressed change the direction, check the collision if he can move,
     // if he can add or substract the speed from his coordonates and select what
     // image to use to maka an animation
+    //add the jump and the condition for the jump
     public void update() {
         //TO DO
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = null;
 
         switch (direction) {
-            case "up" -> {
-                if (spriteNum == 0)
-                    image = up0;
-                if (spriteNum == 1)
-                    image = up1;
-                if (spriteNum == 2)
-                    image = up2;
+            case "jump" -> {
             }
-            case "down" -> {
-                if (spriteNum == 0)
-                    image = down0;
-                if (spriteNum == 1)
-                    image = down1;
-                if (spriteNum == 2)
-                    image = down2;
-            }
+
             case "left" -> {
                 if (spriteNum == 0)
                     image = left1;
