@@ -3,6 +3,11 @@ package src.entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import src.main.GamePanel;
 import src.main.KeyHandler;
 
@@ -43,10 +48,12 @@ public class Player extends Entity {
     // example up from boy_up_0.png
     // using ImageIO.read()
     public final void getPlayerImage() {
-        // TO DO
-        // try {
-        // } catch (IOException e) {
-        // }
+        try {
+            File image_file = new File("res/player/p0/boy_up_0.png");
+            this.image = ImageIO.read(image_file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // the default value of the speed, the location and the direction the player is
