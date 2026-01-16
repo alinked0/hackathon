@@ -13,3 +13,5 @@ https://veih.itch.io/pocket-adventure<br>
 https://maytch.itch.io/pixel<br>
 https://gimoraes.itch.io/free-biomes-platform-sprites-pixel-art-16x16<br>
 https://ariel-pinana.itch.io/platformer-tileset-character-and-monsters<br>
+## Contribution
+Contributors: Varshan, Titouan, Sanjay, Lauryne, Aimé<br>
