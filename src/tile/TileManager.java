@@ -94,15 +94,18 @@ public class TileManager {
     // using g2.drawImage()
     //
     public void draw(Graphics2D g2) {
-        int x, y, pos_x, pos_y;
+        int x, y, pos_x, pos_y, screenX, screenY;
+
         for (x=0; x< gp.maxWorldCol; ++x){
             for (y=0; y< gp.maxWorldRow; ++y){
                 pos_x = x*gp.tileSize;
                 pos_y = y*gp.tileSize;
+                screenX = pos_x - gp.player.worldX + gp.player.screenX;
+                screenY = pos_y - gp.player.worldY + gp.player.screenY;
 
                 g2.drawImage(
                     tile[mapTileNum[x][y]].image, 
-                    pos_x, pos_y, 
+                    screenX, screenY, 
                     gp.tileSize, gp.tileSize, 
                     null
                 );
