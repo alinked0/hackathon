@@ -48,25 +48,23 @@ public class Player extends Entity {
 	// example up from boy_up_0.png
 	// using ImageIO.read()
 	public final void getPlayerImage() {
-		String basePath = "res/player/p0/";
+		String basePath = "res/player/p3/";
 		try {
 			// UP
-			this.up0 = ImageIO.read(new File(basePath + "boy_up_0.png"));
-			this.up1 = ImageIO.read(new File(basePath + "boy_up_1.png"));
-			this.up2 = ImageIO.read(new File(basePath + "boy_up_2.png"));
+			this.up0 = ImageIO.read(new File(basePath + "down_0.png"));
 
 			// DOWN
-			this.down0 = ImageIO.read(new File(basePath + "boy_down_0.png"));
-			this.down1 = ImageIO.read(new File(basePath + "boy_down_1.png"));
-			this.down2 = ImageIO.read(new File(basePath + "boy_down_2.png"));
+			this.down0 = ImageIO.read(new File(basePath + "down_0.png"));
 
 			// LEFT
-			this.left1 = ImageIO.read(new File(basePath + "boy_left_1.png"));
-			this.left2 = ImageIO.read(new File(basePath + "boy_left_2.png"));
+			this.left1 = ImageIO.read(new File(basePath + "left_0.png"));
+			this.left2 = ImageIO.read(new File(basePath + "left_1.png"));
+			this.left2 = ImageIO.read(new File(basePath + "left_2.png"));
 
 			// RIGHT
-			this.right1 = ImageIO.read(new File(basePath + "boy_right_1.png"));
-			this.right2 = ImageIO.read(new File(basePath + "boy_right_2.png"));
+			this.right1 = ImageIO.read(new File(basePath + "right_0.png"));
+			this.right1 = ImageIO.read(new File(basePath + "right_1.png"));
+			this.right2 = ImageIO.read(new File(basePath + "right_2.png"));
 
 			// idle
 			this.image = up0;
