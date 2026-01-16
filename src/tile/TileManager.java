@@ -1,10 +1,16 @@
 package src.tile;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import src.main.GamePanel;
 
 public class TileManager {
@@ -34,10 +40,21 @@ public class TileManager {
     // and set the collision
     public final void getTileImage() {
 
-        // try {
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
+        try {
+            File folder_tiles;
+            File[] files;
+
+            folder_tiles = new File("res/tiles/");
+            files = folder_tiles.listFiles();
+            tile = new Tile[files.length];
+
+            for (int i = 0; i<files.length; ++i){
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(files[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // load the map by putting the id of each tile in a mapTileNum[] to draw the map
@@ -77,8 +94,20 @@ public class TileManager {
     // using g2.drawImage()
     //
     public void draw(Graphics2D g2) {
+        int x, y, pos_x, pos_y;
+        for (x=0; x< gp.maxWorldCol; ++x){
+            for (y=0; y< gp.maxWorldRow; ++y){
+                pos_x = x*gp.tileSize;
+                pos_y = y*gp.tileSize;
 
-        // TO DO
+                g2.drawImage(
+                    tile[mapTileNum[x][y]].image, 
+                    pos_x, pos_y, 
+                    gp.tileSize, gp.tileSize, 
+                    null
+                );
+            }
+        }
     }
 
 }
