@@ -11,8 +11,9 @@ public class Entity {
 	public String direction;
 
 	public int spriteCounter = 0;
-	public int spriteNum = 1;
-
+	public int spriteNum = 3;
+	public Integer velocityY = 0;
+	
 	public Rectangle solidArea;
 	public boolean collisionOn = false;
 	public boolean walkingOnSolid = true;

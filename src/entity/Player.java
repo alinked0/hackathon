@@ -12,7 +12,7 @@ import src.main.GamePanel;
 import src.main.KeyHandler;
 
 public class Player extends Entity {
-
+	public static Integer SPRITENUMBER = 3;
 	GamePanel gp;
 	KeyHandler keyH;
 
@@ -20,10 +20,12 @@ public class Player extends Entity {
 	public final int screenY;
 
 	int leftInJump;
-
 	BufferedImage image;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
+		this(gp, keyH, SPRITENUMBER);
+	}
+	public Player(GamePanel gp, KeyHandler keyH, Integer spriteNum) {
 		this.gp = gp;
 		this.keyH = keyH;
 
@@ -40,31 +42,33 @@ public class Player extends Entity {
 
 		image = null;
 
+		this.spriteNum = spriteNum%(SPRITENUMBER+1);
 		setDefaultValues();
 		getPlayerImage();
 	}
-
+	public String getSpritePath(){
+		return "res/player/p"+this.spriteNum+"/";
+	}
 	// get the images of the player and put it in a variable
 	// example up from boy_up_0.png
 	// using ImageIO.read()
 	public final void getPlayerImage() {
-		String basePath = "res/player/p3/";
 		try {
 			// UP
-			this.up0 = ImageIO.read(new File(basePath + "down_0.png"));
+			this.up0 = ImageIO.read(new File(getSpritePath() + "down_0.png"));
 
 			// DOWN
-			this.down0 = ImageIO.read(new File(basePath + "down_0.png"));
+			this.down0 = ImageIO.read(new File(getSpritePath() + "down_0.png"));
 
 			// LEFT
-			this.left1 = ImageIO.read(new File(basePath + "left_0.png"));
-			this.left2 = ImageIO.read(new File(basePath + "left_1.png"));
-			this.left2 = ImageIO.read(new File(basePath + "left_2.png"));
+			this.left1 = ImageIO.read(new File(getSpritePath() + "left_0.png"));
+			this.left2 = ImageIO.read(new File(getSpritePath() + "left_1.png"));
+			this.left2 = ImageIO.read(new File(getSpritePath() + "left_2.png"));
 
 			// RIGHT
-			this.right1 = ImageIO.read(new File(basePath + "right_0.png"));
-			this.right1 = ImageIO.read(new File(basePath + "right_1.png"));
-			this.right2 = ImageIO.read(new File(basePath + "right_2.png"));
+			this.right1 = ImageIO.read(new File(getSpritePath() + "right_0.png"));
+			this.right1 = ImageIO.read(new File(getSpritePath() + "right_1.png"));
+			this.right2 = ImageIO.read(new File(getSpritePath() + "right_2.png"));
 
 			// idle
 			this.image = up0;
@@ -77,8 +81,8 @@ public class Player extends Entity {
 	// facing
 	public final void setDefaultValues() {
 		worldX = gp.tileSize * 7;
-		worldY = gp.tileSize * 6;
-		speed = 4;
+		worldY = gp.tileSize * (6-1);
+		speed = 7;
 		direction = "right";
 	}
 
@@ -87,22 +91,37 @@ public class Player extends Entity {
 	// image to use to maka an animation
 	//add the jump and the condition for the jump
 	public void update() {
-		if (keyH.upPressed) direction = "up";
-		else if (keyH.downPressed) direction = "down";
-		else if (keyH.leftPressed) direction = "left";
-		else if (keyH.rightPressed) direction = "right";
-		else return;
-		
+		Boolean hitGround;
 		// Verif les collisions
-		collisionOn = false;
-		gp.cChecker.checkTile((Entity) this);
-		if (!collisionOn) {
-			switch(direction) {
-				case "up" -> worldY -= speed;
-				case "down" -> worldY += speed;
-				case "left" -> worldX -= speed;
-				case "right" -> worldX += speed;
-			}
+		this.collisionOn = false;
+		
+		if (keyH.leftPressed){
+			direction = "left";
+			gp.cChecker.checkTile((Entity) this);
+			if (!collisionOn) worldX -= speed;
+		}
+		if (keyH.rightPressed){
+			direction = "right";
+			gp.cChecker.checkTile((Entity) this);
+			if (!collisionOn) worldX += speed;
+		}
+		
+		if (keyH.upPressed && walkingOnSolid){
+			direction = "up";
+			gp.cChecker.checkTile((Entity) this);
+			velocityY = -gp.jumpStrength;
+			walkingOnSolid = false;
+		}
+		
+		// cumul gravity
+		velocityY += gp.gravity;
+		hitGround= gp.cChecker.checkTile((Entity) this, "down",velocityY);
+		if (!hitGround) {
+			worldY += velocityY;
+			walkingOnSolid = false;
+		} else {
+			velocityY = 0;
+			walkingOnSolid = true;
 		}
 	}
 

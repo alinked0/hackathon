@@ -17,6 +17,10 @@ public class CollisionChecker {
 	// to the direction
 	// and always check if you are walking on ground or not
 	public void checkTile(Entity entity) {
+		entity.collisionOn = false;
+		entity.collisionOn = checkTile(entity, entity.direction, entity.speed);
+	}
+	public Boolean checkTile(Entity entity, String direction, Integer speed) {
 		Integer entityLeftWorldX, entityRightWorldX,
 				entityTopWorldY, entityBottomWorldY,
 				leftCol, rightCol,
@@ -36,30 +40,28 @@ public class CollisionChecker {
 		bottomRow = entityBottomWorldY / gp.tileSize;
 
 		tileNum1 = tileNum2 = null;
-		switch (entity.direction) {
+		switch (direction) {
 			case "up":
-				topRow = (entityTopWorldY - entity.speed) / gp.tileSize;
+				topRow = (entityTopWorldY - speed) / gp.tileSize;
 				tileNum1 = gp.tileM.mapTileNum[leftCol][topRow];
 				tileNum2 = gp.tileM.mapTileNum[rightCol][topRow];
 				break;
 			case "down":
-				bottomRow = (entityBottomWorldY + entity.speed) / gp.tileSize;
+				bottomRow = (entityBottomWorldY + speed) / gp.tileSize;
 				tileNum1 = gp.tileM.mapTileNum[leftCol][bottomRow];
 				tileNum2 = gp.tileM.mapTileNum[rightCol][bottomRow];
 				break;
 			case "left":
-				leftCol = (entityLeftWorldX - entity.speed) / gp.tileSize;
+				leftCol = (entityLeftWorldX - speed) / gp.tileSize;
 				tileNum1 = gp.tileM.mapTileNum[leftCol][topRow];
 				tileNum2 = gp.tileM.mapTileNum[leftCol][bottomRow];
 				break;
 			case "right":
-				rightCol = (entityRightWorldX + entity.speed) / gp.tileSize;
+				rightCol = (entityRightWorldX + speed) / gp.tileSize;
 				tileNum1 = gp.tileM.mapTileNum[rightCol][topRow];
 				tileNum2 = gp.tileM.mapTileNum[rightCol][bottomRow];
 				break;
 		}
-		if (tileNum1!=null && tileNum2!=null && (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision)) {
-			entity.collisionOn = true;
-		}
+		return tileNum1!=null && tileNum2!=null && (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision);
 	}
 }

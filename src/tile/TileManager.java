@@ -39,19 +39,19 @@ public class TileManager {
 	// using ImageIO.read()
 	// and set the collision
 	public final void getTileImage() {
-		List<String> collisions = List.of("wall", "tree");
+		List<String> files, collisions;
+		String folder_tiles;
+
+		folder_tiles = "res/tiles/";
+		files = List.of("grass", "wall", "water", "earth", "tree", "sand");
+		collisions = List.of("wall", "earth", "tree");
 		try {
-			File folder_tiles;
-			File[] files;
-
-			folder_tiles = new File("res/tiles/");
-			files = folder_tiles.listFiles();
-			tile = new Tile[files.length];
-
-			for (int i = 0; i<files.length; ++i){
+			tile = new Tile[files.size()];
+			
+			for (int i = 0; i<files.size(); ++i){
 				tile[i] = new Tile();
-				tile[i].image = ImageIO.read(files[i]);
-				tile[i].collision = collisions.contains(files[i].getName().replace(".png", ""));
+				tile[i].image = ImageIO.read(new File(folder_tiles+files.get(i)+".png"));
+				tile[i].collision = collisions.contains(files.get(i));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

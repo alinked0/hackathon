@@ -29,9 +29,12 @@ public class GamePanel extends JPanel implements Runnable {
 	// FPS
 	int FPS = 60;
 
+	public final Integer gravity = 1;
+	public final Integer jumpStrength = 18;
+
 	TileManager tileM = new TileManager(this);
 	KeyHandler keyH = new KeyHandler();
-	Thread gamThread;
+	public volatile Thread gamThread;
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public Player player = new Player(this, keyH);
 
@@ -50,14 +53,18 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	//draw and update at the fps rate with System.nanoTime() to get the current time
+	public void stop() {
+		gamThread = null;
+	}
 	@Override
 	public void run() {
+		Thread thisThread = Thread.currentThread();
 		Long time_now, time_last, increment, acc, delta;
 
 		acc = 0L;
 		time_last = System.nanoTime();
 		increment = Long.divideUnsigned(1_000_000_000L, this.FPS);
-		while(true){
+		while(thisThread==gamThread){
 			time_now = System.nanoTime();
 			delta = time_now - time_last;
 			time_last = time_now;
@@ -69,12 +76,11 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
-
 	public void update() {
+		/*if (player.worldX <0 ||  player.worldY <0 || player.worldX >=maxWorldCol || player.worldY>=maxWorldRow){
+			this.stop();
+		}*/
 		player.update();
-		int col = player.worldX / tileSize;
-		int row = player.worldY / tileSize;
-		//System.err.println("Tile under player: " + tileM.mapTileNum[col][row]);
 	}
 
 	@Override
