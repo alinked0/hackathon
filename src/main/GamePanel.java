@@ -72,6 +72,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update();
+        int col = player.worldX / tileSize;
+        int row = player.worldY / tileSize;
+        //System.err.println("Tile under player: " + tileM.mapTileNum[col][row]);
     }
 
     @Override

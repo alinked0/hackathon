@@ -89,23 +89,22 @@ public class Player extends Entity {
     // image to use to maka an animation
     //add the jump and the condition for the jump
     public void update() {
-        // TODO handle sprites for every direction
-        if (this.keyH.upPressed){
-            this.worldY -= this.speed;
-            this.direction = "up";
-        }
-        if (this.keyH.downPressed){
-            this.worldY += this.speed;
-            this.direction = "down";
-        }
-        if (this.keyH.leftPressed){
-            this.worldX -= this.speed;
-            this.direction = "left";
-        }
-        if (this.keyH.rightPressed){
-            this.worldX += this.speed;
-            this.direction = "right";
-            
+        if (keyH.upPressed) direction = "up";
+        else if (keyH.downPressed) direction = "down";
+        else if (keyH.leftPressed) direction = "left";
+        else if (keyH.rightPressed) direction = "right";
+        else return;
+        
+        // Verif les collisions
+        collisionOn = false;
+        gp.cChecker.checkTile((Entity) this);
+        if (!collisionOn) {
+            switch(direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
         }
     }
 
