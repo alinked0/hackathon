@@ -70,7 +70,24 @@ public class Player extends Entity {
     // image to use to maka an animation
     //add the jump and the condition for the jump
     public void update() {
-        //TO DO
+        // TODO handle sprites for every direction
+        if (this.keyH.upPressed){
+            this.worldY += this.speed;
+            this.direction = "up";
+        }
+        if (this.keyH.downPressed){
+            this.worldY -= this.speed;
+            this.direction = "down";
+        }
+        if (this.keyH.leftPressed){
+            this.worldX += this.speed;
+            this.direction = "left";
+        }
+        if (this.keyH.rightPressed){
+            this.worldX -= this.speed;
+            this.direction = "right";
+            
+        }
     }
 
     public void draw(Graphics2D g2) {
